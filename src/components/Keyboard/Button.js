@@ -1,70 +1,65 @@
 import React from 'react'
+import { Text, StyleSheet, TouchableHighlight, Dimensions } from 'react-native'
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableHighlight,
-  TouchableNativeFeedback,
-  Platform,
-} from 'react-native'
-import { isAndroid } from '../../utils'
-import { grey, lightGrey, lightGreyHighlight, green, lightGreen, red, lightRed } from '../../colors'
+  grey,
+  lightGrey,
+  lightGreyHighlight,
+  green,
+  lightGreen,
+  lightGreenHighlight,
+  red,
+  lightRed,
+  lightRedHighlight,
+} from '../../colors'
 
-export default function Button({ label, isOperation }) {
-  const style = isOperation ? operationStyles : styles
+export default function Button({ label, isOperation, isDouble, isTriple, handlePress }) {
+  const containerStyle = [styles.container]
+  const textStyle = [styles.text]
+  isOperation && containerStyle.push(styles.isOperation)
+  isOperation && textStyle.push(styles.isOperation)
+  isDouble && containerStyle.push(styles.isDouble)
+  isTriple && containerStyle.push(styles.isTriple)
+  isTriple && textStyle.push(styles.isTripleText)
 
-  if (isAndroid) {
-    return (
-      <TouchableNativeFeedback
-        onPress={() => console.warn('teste')}
-        background={
-          Platform.Version >= 21
-            ? TouchableNativeFeedback.Ripple(lightGreyHighlight, true, 60)
-            : TouchableNativeFeedback.SelectableBackground()
-        }
-      >
-        <View style={style.container}>
-          <Text style={style.text}>{label}</Text>
-        </View>
-      </TouchableNativeFeedback>
-    )
-  } else {
-    return (
-      <TouchableHighlight
-        style={style.container}
-        activeOpacity={1}
-        underlayColor={lightGreyHighlight}
-        onPress={() => console.warn('teste')}
-      >
-        <Text style={style.text}>{label}</Text>
-      </TouchableHighlight>
-    )
-  }
+  return (
+    <TouchableHighlight
+      style={containerStyle}
+      activeOpacity={1}
+      underlayColor={isOperation ? lightGreenHighlight : lightGreyHighlight}
+      onPress={() => handlePress(label, isOperation)}
+    >
+      <Text style={textStyle}>{label}</Text>
+    </TouchableHighlight>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: lightGrey,
     display: 'flex',
-    margin: '2%',
-    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '21%',
+    borderRadius: 20,
+    margin: 8,
+    width: (Dimensions.get('window').width - 16 * 4) / 4,
+    height: (Dimensions.get('window').width - 16 * 4) / 4,
   },
   text: {
     fontSize: 30,
     color: grey,
   },
-})
-
-const operationStyles = StyleSheet.create({
-  container: {
-    ...styles.container,
+  isOperation: {
     backgroundColor: lightGreen,
-  },
-  text: {
-    ...styles.text,
     color: green,
+  },
+  isDouble: {
+    width: (Dimensions.get('window').width - 16 * 2) / 2,
+  },
+  isTriple: {
+    backgroundColor: lightRed,
+    width: ((Dimensions.get('window').width - (16 * 4) / 3) / 4) * 3,
+  },
+  isTripleText: {
+    color: red,
   },
 })

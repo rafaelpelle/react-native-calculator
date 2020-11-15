@@ -2,10 +2,10 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { grey, lightGrey } from '../../colors'
 
-export default function Display({ displayText, result }) {
+export default function Display({ expression, result }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{displayText}</Text>
+      <Text style={styles.text}>{expression}</Text>
       <Text style={styles.textResult}>{result}</Text>
     </View>
   )

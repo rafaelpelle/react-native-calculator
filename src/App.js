@@ -2,15 +2,18 @@ import React from 'react'
 import { SafeAreaView, StyleSheet, View, StatusBar } from 'react-native'
 import Display from './components/Display'
 import Keyboard from './components/Keyboard'
+import useCalculator from './hooks/useCalculator'
 
 const App = () => {
+  const useCalculatorHook = useCalculator()
+
   return (
     <>
       <StatusBar barStyle='light-content' />
       <SafeAreaView>
         <View style={styles.container}>
-          <Display displayText={'1 + 3'} result={'4'} />
-          <Keyboard />
+          <Display {...useCalculatorHook} />
+          <Keyboard {...useCalculatorHook} />
         </View>
       </SafeAreaView>
     </>

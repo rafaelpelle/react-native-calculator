@@ -5,5 +5,6 @@ module.exports = {
   plugins: ['prettier'],
   rules: {
     'prettier/prettier': 'warn',
+    'no-eval': 'off',
   },
 }
